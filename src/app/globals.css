@@ -1,0 +1,468 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────
+   EXAR DESIGN SYSTEM — "Industrial Heritage, Refined"
+   ───────────────────────────────────────────── */
+
+@theme inline {
+  /* Palette */
+  --color-navy-950: #070F1A;
+  --color-navy-900: #0A1A2F;
+  --color-navy-800: #0E2238;
+  --color-navy-700: #142D47;
+  --color-navy-600: #1B3D5C;
+  --color-navy-500: #2A5580;
+  --color-navy-400: #4A7AAB;
+
+  --color-copper-700: #7A3A12;
+  --color-copper-600: #9A4A1E;
+  --color-copper-500: #B5602B;
+  --color-copper-400: #D4854A;
+  --color-copper-300: #E4A670;
+
+  --color-cream: #F4F1EC;
+  --color-cream-dark: #E8E4DE;
+  --color-steel-100: #EEF0F3;
+  --color-steel-200: #D8DCE2;
+  --color-steel-300: #C5CDD6;
+  --color-steel-400: #8A9AAB;
+  --color-steel-500: #647483;
+  --color-steel-600: #4A5766;
+
+  --color-background: var(--color-cream);
+  --color-foreground: #1A1A1A;
+
+  /* Typography */
+  --font-serif: var(--font-fraunces);
+  --font-sans: var(--font-barlow);
+  --font-mono: var(--font-ibm-plex-mono);
+
+  /* Fluid type scale */
+  --text-display: clamp(2.5rem, 5vw + 1rem, 6rem);
+  --text-h1: clamp(2rem, 3.5vw + 0.5rem, 4.5rem);
+  --text-h2: clamp(1.75rem, 2.5vw + 0.5rem, 3rem);
+  --text-h3: clamp(1.25rem, 1.5vw + 0.5rem, 2rem);
+  --text-h4: clamp(1.1rem, 1vw + 0.5rem, 1.5rem);
+  --text-body: clamp(0.95rem, 0.5vw + 0.7rem, 1.125rem);
+  --text-small: clamp(0.8rem, 0.3vw + 0.65rem, 0.9rem);
+  --text-caption: clamp(0.7rem, 0.2vw + 0.6rem, 0.8rem);
+
+  /* Spacing scale */
+  --space-section: clamp(4rem, 8vw + 1rem, 10rem);
+  --space-block: clamp(2rem, 4vw + 0.5rem, 5rem);
+
+  /* Max content width */
+  --max-content: 1520px;
+}
+
+/* ─── Base ───────────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: var(--text-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Safe areas for notch devices */
+@supports (padding: env(safe-area-inset-bottom)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* ─── Typography ────────────────────────────── */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.font-serif { font-family: var(--font-serif), Georgia, serif; }
+.font-sans { font-family: var(--font-sans), system-ui, sans-serif; }
+.font-mono { font-family: var(--font-mono), monospace; }
+
+.text-display { font-size: var(--text-display); }
+.text-h1 { font-size: var(--text-h1); }
+.text-h2 { font-size: var(--text-h2); }
+.text-h3 { font-size: var(--text-h3); }
+.text-h4 { font-size: var(--text-h4); }
+.text-body { font-size: var(--text-body); }
+.text-small { font-size: var(--text-small); }
+.text-caption { font-size: var(--text-caption); }
+
+.label {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mono-value {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--text-small);
+  letter-spacing: 0.02em;
+}
+
+/* ─── Layout utilities ──────────────────────── */
+
+.container-main {
+  width: 100%;
+  max-width: var(--max-content);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 3vw, 2.5rem);
+}
+
+.section-padding {
+  padding-block: var(--space-section);
+}
+
+/* ─── Interactive elements ──────────────────── */
+
+/* Ensure tap targets */
+button, a, [role="button"] {
+  touch-action: manipulation;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--color-copper-500);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ─── Hairline dividers ─────────────────────── */
+
+.hairline {
+  height: 1px;
+  background: var(--color-steel-200);
+}
+
+.hairline-copper {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-copper-500) 20%,
+    var(--color-copper-500) 80%,
+    transparent 100%
+  );
+}
+
+.hairline-dark {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Blueprint corner ticks ────────────────── */
+
+.blueprint-corners {
+  position: relative;
+}
+.blueprint-corners::before,
+.blueprint-corners::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: var(--color-copper-500);
+  pointer-events: none;
+  opacity: 0.4;
+}
+.blueprint-corners::before {
+  top: -1px;
+  left: -1px;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+.blueprint-corners::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+}
+
+/* ─── Section numbering ─────────────────────── */
+
+.section-number {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--text-caption);
+  color: var(--color-copper-500);
+  letter-spacing: 0.1em;
+}
+
+/* ─── Film grain overlay (desktop only) ─────── */
+
+@media (min-width: 1024px) and (hover: hover) {
+  .film-grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+  }
+}
+
+/* ─── Scrollbar styling ─────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-navy-950);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-copper-600);
+  border-radius: 3px;
+}
+
+/* ─── Selection ─────────────────────────────── */
+
+::selection {
+  background: var(--color-copper-500);
+  color: white;
+}
+
+/* ─── No body scroll when modal/drawer open ── */
+
+body.no-scroll {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  /* iOS fix: store scroll position in data attr, restore on close */
+}
+
+/* ─── Prevent iOS input zoom ────────────────── */
+
+@media screen and (max-width: 768px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* ─── Custom cursor (fine pointer only) ─────── */
+
+@media (hover: hover) and (pointer: fine) {
+  .cursor-view { cursor: pointer; }
+}
+
+/* ─── Smooth image reveal ───────────────────── */
+
+.img-reveal {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.img-reveal.revealed {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ─── RTL support ───────────────────────────── */
+
+[dir="rtl"] {
+  direction: rtl;
+}
+[dir="rtl"] .blueprint-corners::before {
+  left: auto;
+  right: -1px;
+  border-left: none;
+  border-right: 1px solid;
+}
+[dir="rtl"] .blueprint-corners::after {
+  right: auto;
+  left: -1px;
+  border-right: none;
+  border-left: 1px solid;
+}
+
+/* ─── Vendor strip (credibility bar) ────────── */
+
+.vendor-card {
+  background: var(--color-navy-900);
+  border: 1px solid rgba(181, 96, 43, 0.15);
+  padding: 1.25rem 1.5rem;
+  position: relative;
+}
+.vendor-card::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border: 1px solid rgba(181, 96, 43, 0.08);
+  pointer-events: none;
+}
+
+/* ─── Button styles ─────────────────────────── */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background: var(--color-copper-500);
+  color: white;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: var(--text-small);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  min-height: 48px;
+}
+.btn-primary:hover {
+  background: var(--color-copper-600);
+}
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background: transparent;
+  color: var(--color-copper-500);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: var(--text-small);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid var(--color-copper-500);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 48px;
+}
+.btn-outline:hover {
+  background: var(--color-copper-500);
+  color: white;
+}
+
+.btn-outline-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background: transparent;
+  color: var(--color-cream);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: var(--text-small);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid rgba(244, 241, 236, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 48px;
+}
+.btn-outline-light:hover {
+  background: rgba(244, 241, 236, 0.1);
+  border-color: var(--color-cream);
+}
+
+/* ─── Scrollbar Hide ────────────────────────── */
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Smooth scroll (Lenis integration) ─────── */
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ─── Reveal animation ─────────────────────── */
+
+.reveal-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-up.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-fade {
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-fade.revealed {
+  opacity: 1;
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-scale.revealed {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger delay helpers */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+.delay-6 { transition-delay: 0.6s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-up, .reveal-fade, .reveal-scale {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
