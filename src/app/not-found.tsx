@@ -6,46 +6,41 @@ export default function NotFound() {
   return (
     <>
       <Header />
-      <main className="flex-1 flex items-center justify-center bg-navy-900 relative overflow-hidden film-grain">
-        <div className="container-main relative z-10 text-center py-24">
-          <span className="font-mono text-copper-400 text-xs tracking-widest">
+      <main className="flex-1 flex items-center justify-center bg-navy-950 relative overflow-hidden film-grain min-h-[80vh]">
+        <div aria-hidden="true" className="absolute inset-0 blueprint-grid opacity-[0.06]" />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{ background: "radial-gradient(ellipse at 50% 40%, rgba(181,96,43,0.22), transparent 55%)" }}
+        />
+        <span
+          aria-hidden="true"
+          className="absolute inset-x-0 top-1/2 -translate-y-1/2 text-center font-serif font-light leading-none text-[clamp(10rem,38vw,36rem)] text-outline text-white/[0.07] select-none pointer-events-none"
+        >
+          404
+        </span>
+
+        <div className="container-main relative z-10 text-center py-32">
+          <span className="font-mono text-copper-400 text-xs tracking-[0.3em] eyebrow fade-in-up" style={{ "--d": "0.1s" } as React.CSSProperties}>
             ERROR 404
           </span>
-          <h1 className="font-serif text-cream text-h1 mt-4">
-            Page Not Found
+          <h1 className="font-serif text-cream text-h1 mt-6">
+            <span className="rise-line">
+              <span style={{ "--d": "0.2s" } as React.CSSProperties}>
+                Page <em className="italic font-light text-copper-300">Not Found</em>
+              </span>
+            </span>
           </h1>
-          <p className="text-cream/60 text-body mt-4 max-w-md mx-auto">
+          <p className="text-cream/60 text-body mt-5 max-w-md mx-auto fade-in-up" style={{ "--d": "0.45s" } as React.CSSProperties}>
             The page you&apos;re looking for doesn&apos;t exist or has been moved.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
-            <Link href="/" className="btn-primary">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10 fade-in-up" style={{ "--d": "0.6s" } as React.CSSProperties}>
+            <Link href="/" className="btn-primary magnetic">
               Back to Home
             </Link>
-            <Link href="/products" className="btn-outline-light text-xs">
+            <Link href="/products" className="btn-outline-light magnetic text-xs">
               Browse Products
             </Link>
-          </div>
-
-          {/* Decorative blueprint grid */}
-          <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
-            <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern
-                  id="grid404"
-                  width="60"
-                  height="60"
-                  patternUnits="userSpaceOnUse"
-                >
-                  <path
-                    d="M 60 0 L 0 0 0 60"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="1"
-                  />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid404)" />
-            </svg>
           </div>
         </div>
       </main>

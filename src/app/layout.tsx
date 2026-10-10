@@ -2,12 +2,16 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Barlow, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
+import Preloader from "@/components/Preloader";
+import Effects from "@/components/Effects";
+import MobileActionBar from "@/components/MobileActionBar";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
   display: "swap",
   weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
 });
 
 const barlow = Barlow({
@@ -79,8 +83,15 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${fraunces.variable} ${barlow.variable} ${ibmPlexMono.variable}`}
+      suppressHydrationWarning
     >
       <head>
+        {/* Skip the brand intro on repeat visits before first paint (see Preloader). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(sessionStorage.getItem("exar-intro"))document.documentElement.classList.add("intro-seen")}catch(e){}`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -118,7 +129,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-dvh flex flex-col">
+        <Preloader />
+        <Effects />
         <SmoothScroll>{children}</SmoothScroll>
+        <MobileActionBar />
       </body>
     </html>
   );

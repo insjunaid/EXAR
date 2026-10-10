@@ -6,6 +6,8 @@ import { categories } from "@/data/products";
 import { company } from "@/data/company";
 import { notFound } from "next/navigation";
 import ScrollReveal from "@/components/ScrollReveal";
+import PageHero from "@/components/PageHero";
+import { divisionImages } from "@/data/images";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -34,37 +36,26 @@ export default async function CategoryPage({ params }: Props) {
     <>
       <Header />
       <main className="flex-1">
-        <section className="bg-navy-900 pt-28 pb-12 lg:pt-36 lg:pb-16 relative overflow-hidden">
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 opacity-[0.03] pointer-events-none"
-            style={{
-              backgroundImage: `radial-gradient(var(--color-cream) 1px, transparent 1px)`,
-              backgroundSize: "24px 24px",
-            }}
-          />
-
-          <div className="container-main relative z-10">
-            <ScrollReveal animation="fade">
-              <div className="flex items-center gap-2 text-cream/50 text-xs font-mono mb-4">
-                <Link href="/products" className="hover:text-copper-400 transition-colors">
-                  Products
-                </Link>
-                <span>/</span>
-                <Link
-                  href={`/products?division=${category.divisionSlug}`}
-                  className="hover:text-copper-400 transition-colors"
-                >
-                  {category.division}
-                </Link>
-              </div>
-              <h1 className="text-h1 text-cream font-serif">{category.name}</h1>
-              <p className="text-cream/70 text-body mt-3 max-w-2xl leading-relaxed">
-                {category.description}
-              </p>
-            </ScrollReveal>
-          </div>
-        </section>
+        <PageHero
+          eyebrow={category.division}
+          title={category.name}
+          image={divisionImages[category.divisionSlug]}
+          description={category.description}
+          breadcrumb={
+            <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-cream/50 text-xs font-mono">
+              <Link href="/products" className="link-underline inline-flex items-center min-h-[44px] hover:text-copper-400 transition-colors">
+                Products
+              </Link>
+              <span className="text-copper-500/60">/</span>
+              <Link
+                href={`/products?division=${category.divisionSlug}`}
+                className="link-underline inline-flex items-center min-h-[44px] hover:text-copper-400 transition-colors"
+              >
+                {category.division}
+              </Link>
+            </nav>
+          }
+        />
 
         <section className="bg-cream section-padding">
           <div className="container-main">
@@ -73,20 +64,23 @@ export default async function CategoryPage({ params }: Props) {
               <div className="lg:col-span-8">
                 {category.items && category.items.length > 0 && (
                   <ScrollReveal animation="up">
-                    <div className="flex items-baseline justify-between mb-6 pb-2 border-b border-steel-200">
+                    <div className="flex flex-wrap items-baseline justify-between gap-3 mb-8 pb-4 border-b border-steel-200">
                       <h2 className="text-h3 text-navy-900 font-serif">Products & Specifications Available</h2>
                       <span className="text-xs font-mono text-steel-500">
                         {category.items.length} {category.items.length === 1 ? "Specification" : "Specifications"}
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                      {category.items.map((item) => (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 hairline-grid">
+                      {category.items.map((item, i) => (
                         <div
                           key={item}
-                          className="flex items-center gap-3.5 p-4 border border-steel-200/90 hover:border-copper-500/50 hover:shadow-subtle transition-all duration-200 bg-white group"
+                          className="group spotlight spotlight-light flex items-center gap-4 p-5 bg-white hover:bg-cream transition-colors duration-300"
                         >
-                          <span className="w-2 h-2 bg-copper-500 rounded-none shrink-0 group-hover:scale-125 transition-transform" />
+                          <span className="font-mono text-[0.65rem] text-steel-400 group-hover:text-copper-500 transition-colors w-6 shrink-0">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          <span className="w-1.5 h-1.5 bg-copper-500 shrink-0 group-hover:rotate-45 group-hover:scale-125 transition-transform duration-300" />
                           <span className="text-navy-900 text-sm font-sans font-medium group-hover:text-copper-600 transition-colors">
                             {item}
                           </span>
@@ -97,28 +91,37 @@ export default async function CategoryPage({ params }: Props) {
                 )}
 
                 <ScrollReveal animation="fade" delay={1}>
-                  <div className="mt-12 p-8 bg-navy-900 text-cream blueprint-corners flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-                    <div>
-                      <span className="label text-copper-400 text-[0.6rem] font-mono uppercase tracking-wider block mb-1">
+                  <div className="mt-12 p-8 lg:p-10 bg-navy-950 text-cream relative overflow-hidden flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0"
+                      style={{ background: "radial-gradient(ellipse at 100% 50%, rgba(181,96,43,0.25), transparent 60%)" }}
+                    />
+                    <div aria-hidden="true" className="absolute inset-0 blueprint-grid opacity-[0.05]" />
+                    <div className="relative">
+                      <span className="label text-copper-400 text-[0.6rem] font-mono uppercase tracking-wider block mb-2">
                         Procurement & Quotation
                       </span>
-                      <h3 className="font-serif text-xl">Need specific dimensions or test certificates?</h3>
-                      <p className="text-cream/60 text-xs mt-1 max-w-md">
+                      <h3 className="font-serif text-2xl">Need specific dimensions or test certificates?</h3>
+                      <p className="text-cream/60 text-xs mt-2 max-w-md leading-relaxed">
                         We supply with MTR (Mill Test Reports), EN 10204 3.1 certification, and compliance documentation.
                       </p>
                     </div>
-                    <Link href="/contact" className="btn-primary shrink-0 whitespace-nowrap">
+                    <Link href="/contact" className="relative btn-primary magnetic shrink-0 whitespace-nowrap">
                       Request a Quote
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
                     </Link>
                   </div>
                 </ScrollReveal>
               </div>
 
               {/* Sidebar */}
-              <aside className="lg:col-span-4 space-y-4">
+              <aside className="lg:col-span-4 space-y-4 lg:sticky lg:top-28 self-start">
                 {/* Category info */}
                 <ScrollReveal animation="fade">
-                  <div className="border border-steel-200 p-6 bg-white blueprint-corners">
+                  <div className="border border-steel-200 p-6 bg-white blueprint-corners shadow-subtle">
                     <h3 className="label text-copper-500 mb-4 font-mono text-xs uppercase tracking-wider">
                       Technical Overview
                     </h3>

@@ -1,50 +1,64 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { pipingSpecs } from "@/data/piping-specs";
+import { sceneImages } from "@/data/images";
 import ScrollReveal from "@/components/ScrollReveal";
+import PageHero from "@/components/PageHero";
+import { useCenterActive } from "@/components/useCenterActive";
 
 export default function PipingValvesContent() {
   const [activeTab, setActiveTab] = useState(0);
   const spec = pipingSpecs[activeTab];
+  const tabsRef = useRef<HTMLDivElement>(null);
+  useCenterActive(tabsRef, activeTab);
 
   return (
     <>
-      <section className="bg-navy-900 pt-28 pb-12 lg:pt-36 lg:pb-16">
-        <div className="container-main">
-          <ScrollReveal>
-            <span className="section-number text-copper-400">Technical Reference</span>
-            <h1 className="text-h1 text-cream mt-4 font-serif">
-              Piping & Valve Specifications
-            </h1>
-            <p className="text-cream/60 text-body mt-3 max-w-2xl">
-              Complete technical reference for industrial pipes, fittings, and valves.
-              All products manufactured and quality-controlled to ASME, ASTM, BS, and DIN standards.
-            </p>
-          </ScrollReveal>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Technical Reference"
+        title="Piping & Valve Specifications"
+        image={sceneImages.pipework}
+        watermark="ASME"
+        description={
+          <>
+            Complete technical reference for industrial pipes, fittings, and valves.
+            All products manufactured and quality-controlled to ASME, ASTM, BS, and DIN standards.
+          </>
+        }
+      />
 
-      <section className="bg-navy-950 section-padding">
-        <div className="container-main">
+      <section className="bg-navy-950 section-padding relative overflow-hidden">
+        <div aria-hidden="true" className="absolute inset-0 blueprint-grid opacity-[0.04]" />
+        <div className="container-main relative">
           {/* Tab bar */}
           <ScrollReveal>
-            <div className="flex overflow-x-auto gap-1 pb-3 scrollbar-hide -mx-1 px-1 mb-8">
-              {pipingSpecs.map((s, i) => (
-                <button
-                  key={s.id}
-                  onClick={() => setActiveTab(i)}
-                  className={`px-5 py-3 text-xs font-mono whitespace-nowrap transition-all shrink-0 min-h-[48px] ${
-                    i === activeTab
-                      ? "bg-copper-500 text-white"
-                      : "bg-white/5 text-cream/60 hover:bg-white/10 hover:text-cream"
-                  }`}
-                >
-                  {s.title}
-                </button>
-              ))}
+            <div className="p-1 mb-8 bg-white/[0.03] border border-white/[0.06]">
+              <div ref={tabsRef} role="tablist" aria-label="Specification sections" className="relative flex overflow-x-auto gap-1 pr-8 scrollbar-hide scroll-fade-x">
+                {pipingSpecs.map((s, i) => (
+                  <button
+                    key={s.id}
+                    onClick={() => setActiveTab(i)}
+                    role="tab"
+                    aria-selected={i === activeTab}
+                    data-active={i === activeTab}
+                    className={`relative px-5 py-3 text-xs font-mono whitespace-nowrap transition-colors shrink-0 min-h-[48px] cursor-pointer ${
+                      i === activeTab ? "text-white" : "text-cream/60 hover:text-cream"
+                    }`}
+                  >
+                    {i === activeTab && (
+                      <motion.span
+                        layoutId="spec-tab"
+                        className="absolute inset-0 bg-gradient-to-br from-copper-400 to-copper-600 shadow-[0_8px_24px_-10px_rgba(181,96,43,0.8)]"
+                        transition={{ type: "spring", stiffness: 380, damping: 34 }}
+                      />
+                    )}
+                    <span className="relative">{s.title}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </ScrollReveal>
 
@@ -56,8 +70,10 @@ export default function PipingValvesContent() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
-              className="border border-white/10 bg-navy-900/50 p-6 lg:p-10"
+              className="relative border border-white/10 bg-navy-900/60 backdrop-blur-sm p-6 lg:p-10 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.9)]"
             >
+              <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-copper-400/70" />
+              <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-copper-400/70" />
               {/* Header */}
               <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 mb-8">
                 <div>
@@ -85,9 +101,10 @@ export default function PipingValvesContent() {
 
               {/* Materials table */}
               <h3 className="label text-cream/60 text-[0.65rem] mb-4">Material Grades</h3>
-              <div className="overflow-x-auto -mx-6 px-6 lg:mx-0 lg:px-0">
-                <table className="w-full min-w-[500px]">
-                  <thead>
+              {/* A real table from md up; rows stack into cards on phones. */}
+              <div>
+                <table className="w-full block md:table">
+                  <thead className="hidden md:table-header-group">
                     <tr className="border-b border-white/15">
                       <th className="text-left label text-copper-400 text-[0.6rem] py-3 pr-6 w-1/4">
                         Material Category
@@ -97,18 +114,21 @@ export default function PipingValvesContent() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="block md:table-row-group">
                     {spec.materials.map((mat, i) => (
                       <tr
                         key={mat.category}
-                        className={`border-b border-white/5 ${
-                          i % 2 === 0 ? "bg-white/[0.02]" : ""
+                        className={`block md:table-row border-b border-white/5 py-4 md:py-0 ${
+                          i % 2 === 0 ? "md:bg-white/[0.02]" : ""
                         }`}
                       >
-                        <td className="py-4 pr-6 text-cream/90 text-sm font-sans font-medium align-top">
-                          {mat.category}
+                        <td className="block md:table-cell pb-3 md:py-4 md:pr-6 text-cream/90 text-sm font-sans font-medium align-top">
+                          <span className="inline-flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 bg-copper-500 md:hidden" />
+                            {mat.category}
+                          </span>
                         </td>
-                        <td className="py-4">
+                        <td className="block md:table-cell md:py-4">
                           <div className="flex flex-wrap gap-1.5">
                             {mat.grades.map((grade) => (
                               <span
@@ -144,10 +164,10 @@ export default function PipingValvesContent() {
 
               {/* CTA */}
               <div className="mt-10 flex flex-col sm:flex-row gap-3">
-                <Link href="/contact" className="btn-primary text-xs">
+                <Link href="/contact" className="btn-primary magnetic text-xs">
                   Request Pricing
                 </Link>
-                <a href="/exar-catalog.pdf" download className="btn-outline-light text-xs">
+                <a href="/exar-catalog.pdf" download className="btn-outline-light magnetic text-xs">
                   Download Full Catalog
                 </a>
               </div>
